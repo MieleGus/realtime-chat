@@ -1,4 +1,6 @@
 import socketClient from "socket.io-client";
+import GlobalStyle from './styles/global';
+import Routes from './routes'
 
 const SERVER = "http://localhost:3333";
 
@@ -9,7 +11,8 @@ function App() {
   
   return (
     <div>
-      <p>here</p>
+      <Routes/>
+      <GlobalStyle/>
     </div>
   );
 }
