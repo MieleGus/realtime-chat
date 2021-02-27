@@ -9,9 +9,10 @@ export const Container = styled.button`
   padding: 0 16px;
   color: #312e38;
   width: 100%;
-  font-weight: 500;
+  font-weight: 530;
   margin-top: 16px;
   transition: background-color 0.2s;
+  font-size: 20px;
   &:hover {
     background: ${shade(0.2, '#19d3da')};
   }
