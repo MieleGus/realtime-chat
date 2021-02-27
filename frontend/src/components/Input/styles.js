@@ -1,5 +1,7 @@
 import styled, { css} from 'styled-components';
 
+import Tooltip from '../Tooltip';
+
 export const Container = styled.div`
     border-radius: 10px;
     background: #232129;
@@ -41,3 +43,18 @@ export const Container = styled.div`
         margin-right: 16px;
     }
     `;
+
+export const Error = styled(Tooltip)`
+  height: 20px;
+  margin-left: 16px;
+  svg {
+    margin: 0;
+  }
+  span {
+    background: #c53030;
+    color: #fff;
+    &::before {
+      border-color: #c53030 transparent;
+    }
+  }
+`;
