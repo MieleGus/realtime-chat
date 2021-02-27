@@ -1,41 +1,39 @@
 import { useRef } from 'react';
-import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import { FiArrowLeft, FiUser, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
 import { useAuth } from '../../hooks';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import api from '../../services/api'
 
 
-export default function Login() {
+export default function Register() {
     const { enqueueSnackbar } = useSnackbar();
 
     const formRef = useRef(null);
 
-    let { isRegisterPage, setIsRegisterPage, login, logout } = useAuth();
+    let { isRegisterPage, setIsRegisterPage, register } = useAuth();
 
     const handleSubmit = async (data) => {
         try {
             formRef.current.setErrors({})
         
-            console.log("🚀 ~ file: index.js ~ line 12 ~ handleSubmit ~ data", data)
-
             const schema = Yup.object().shape({
-                email: Yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
-                password: Yup.string().required('Senha obrigatória'),
+                name: Yup.string().required('Nome obrigatório!'),
+                email: Yup.string().required('E-mail obrigatório!').email('Digite um e-mail válido'),
+                password: Yup.string().required('Senha obrigatória!'),
             });
         
             await schema.validate(data, {
                 abortEarly: false,
             });
 
-            await login(data);
+            await register(data);
             
-            enqueueSnackbar('Login realizado com sucesso!', { variant: 'success' });
+            enqueueSnackbar('Cadastrado com sucesso!', { variant: 'success' });
             
         } catch(error) {
             let errors = {}
@@ -48,8 +46,7 @@ export default function Login() {
                 return;
             }
 
-            enqueueSnackbar('Ocorreu um erro ao fazer login, usuário e/ou senha inválidos.', { variant: 'error' });
-            //aqui
+            enqueueSnackbar('Ocorreu um erro ao fazer o cadastro, tente novamente.', { variant: 'error' });
             return
         }   
     }
@@ -61,7 +58,12 @@ export default function Login() {
     return (
         <>
             <Form ref={formRef} onSubmit={handleSubmit}>
-                <h1>Faça seu login</h1>
+                <h1>Faça seu registro</h1>
+                <Input 
+                    name="name" 
+                    icon={FiUser} 
+                    placeholder="Nome" 
+                />
                 <Input 
                     name="email" 
                     icon={FiMail} 
@@ -73,12 +75,11 @@ export default function Login() {
                     placeholder="Senha"
                     type="password"
                 />
-                <Button type="submit">Entrar</Button>
+                <Button type="submit">Cadastrar</Button>
             </Form>
-
             <Link onClick={handleChangeRegisterPage}>
-                <FiLogIn />
-                Criar conta
+                    <FiArrowLeft />
+                    Voltar para logon
             </Link>
         </>
     )

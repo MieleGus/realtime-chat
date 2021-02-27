@@ -2,6 +2,9 @@ import socketClient from "socket.io-client";
 import GlobalStyle from './styles/global';
 import Routes from './routes'
 
+import { AuthProvider } from './hooks/index'
+import { SnackbarProvider } from 'notistack';
+
 const SERVER = "http://localhost:3333";
 
 function App() {
@@ -11,8 +14,16 @@ function App() {
   
   return (
     <div>
-      <Routes/>
-      <GlobalStyle/>
+      <SnackbarProvider 
+        maxSnack={3}
+        anchorOrigin={{vertical: 'top',  horizontal: 'right' }}
+      >
+        <AuthProvider>
+          <Routes/>
+          <GlobalStyle/>
+        </AuthProvider>
+      </SnackbarProvider>
+
     </div>
   );
 }

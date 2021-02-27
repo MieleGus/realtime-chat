@@ -6,6 +6,7 @@ export default function App() {
         <Router>
             <Switch>
                 <Route path="/" exact component={Home}/>
+                <Route path="/register" exact component={Home}/>
             </Switch>
         </Router>
     );
