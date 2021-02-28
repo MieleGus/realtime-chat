@@ -3,13 +3,20 @@ import { AnimationContainer, Container, Content } from './styles';
 import Login from '../Login'
 import Register from '../Register';
 
-import { useAuth } from '../../hooks';
+import { useAuth } from '../../hooks/Auth';
+import { useSocket } from '../../hooks/Socket';
 
 export default function Home() {
     
     let { isRegisterPage, isAuthenticated, logout} = useAuth();
+    const { socket }  = useSocket();
 
     useEffect(() => {}, [isAuthenticated ]);
+
+    const handleLogout = async () => {
+        await logout()
+        socket.disconnect()
+    }
 
     return (
         <>
@@ -21,7 +28,7 @@ export default function Home() {
                         </AnimationContainer>
                     }
                 </Content>
-                <button onClick={logout}>logout</button>
+                <button onClick={handleLogout}>logout</button>
             </Container>
         </>
     );

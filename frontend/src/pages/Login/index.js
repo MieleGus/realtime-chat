@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
-import { useAuth } from '../../hooks';
+import { useAuth } from '../../hooks/Auth';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import api from '../../services/api'
