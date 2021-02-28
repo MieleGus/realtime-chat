@@ -6,9 +6,12 @@ export default createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         outline: 0;
+
     }
     body {
         background: #312E38;
+        /* background: #2f3136;  */
+        max-height: 100vh;
         color: #FFF;
         -webkit-font-smoothing: antialiased;
     }

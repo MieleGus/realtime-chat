@@ -1,8 +1,8 @@
 import { Container } from './styles';
 
 
-const Button = ({ children, ...rest }) => (
-  <Container type="button" {...rest}>
+const Button = ({ isChatbutton, children, ...rest }) => (
+  <Container type="button" isChatbutton {...rest}>
     {children}
   </Container>
 );

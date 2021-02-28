@@ -14,9 +14,9 @@ const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState()
   
   useEffect(() => setSocket(io(
-    SERVER, user && {
-      query: {userEmail: user.email},
-    })), [user])
+    SERVER, {
+      autoConnect: false,
+    })), [])
     
   return (
     <SocketContext.Provider value={{socket}}>

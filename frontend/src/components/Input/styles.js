@@ -16,6 +16,12 @@ export const Container = styled.div`
         margin-top: 8px;
     }
 
+    ${props => props.isChatInput && css`
+      height: 100%;
+      width: 85%;
+      border-radius: 0;
+    `}
+
     ${props => props.isErrored && css`
         border-color: #c53030;
     `}

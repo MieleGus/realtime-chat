@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { css} from 'styled-components';
+
 import { shade } from 'polished';
 
 export const Container = styled.button`
@@ -13,7 +14,15 @@ export const Container = styled.button`
   margin-top: 16px;
   transition: background-color 0.2s;
   font-size: 20px;
+  
   &:hover {
     background: ${shade(0.2, '#19d3da')};
   }
+
+  ${props => props.isChatButton && css`
+      border-radius: 0;
+      width: 15%;
+      margin-top: 0;
+      padding: 0;
+    `}
 `;

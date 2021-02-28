@@ -6,7 +6,7 @@ import { useField } from '@unform/core'
 import { Container, Error } from './styles';
 import Tooltip from '../Tooltip';
 
-const Input = ({name, icon: Icon, ...rest }) => {
+const Input = ({ isChatInput, name, icon: Icon, ...rest }) => {
     const inputRef = useRef(null);
 
     const [isFocused, setIsFocused] = useState(false)
@@ -30,9 +30,8 @@ const Input = ({name, icon: Icon, ...rest }) => {
             path: 'value',
         });
     }, [fieldName, registerField]);
-
     return (
-        <Container isErrored={error} isFilled={isFilled} isFocused={isFocused}>
+        <Container isChatInput={isChatInput} isErrored={error} isFilled={isFilled} isFocused={isFocused}>
             {Icon && <Icon size={20} />}
             <input
                 onFocus={handleInputFocus}

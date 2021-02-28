@@ -9,10 +9,15 @@ export const Container = styled.div`
 
   @media(max-width: 870px) {
     flex-direction: column;
-  }
-  /* flex-direction: column; -> on media query 870x722px*/
+    h1 {
+      margin-top: -4rem;
+    }
+     a {
+       margin-bottom:2rem;
+     }
 
-  /* justify-content: center; */
+  }
+
 `;
 
 export const Content = styled.div`
@@ -29,6 +34,25 @@ export const Content = styled.div`
     max-width: 100%;
   }
   /* background-color: black; */
+`;
+
+export const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+
+  
+  height: 100%;
+  width: 100%;
+
+ 
+  /* max-width: 40%; */
+
+  /* @media(max-width: 870px) {
+    max-width: 100%;
+  } */
+  background-color: black;
 `;
 
 const appearFromLeft = keyframes`
