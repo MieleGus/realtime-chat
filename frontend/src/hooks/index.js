@@ -6,7 +6,7 @@ const AppProvider = ({ children }) => (
   <AuthProvider>
     <SocketProvider>
       <SnackbarProvider 
-          maxSnack={3}
+          maxSnack={4}
           anchorOrigin={{vertical: 'top',  horizontal: 'right' }}
         >
         {children}

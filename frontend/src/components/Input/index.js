@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { IconBaseProps}  from 'react-icons';
 import { FiAlertCircle }  from 'react-icons/fi';
 
 import { useField } from '@unform/core'
 import { Container, Error } from './styles';
-import Tooltip from '../Tooltip';
 
 const Input = ({ isChatInput, name, icon: Icon, ...rest }) => {
     const inputRef = useRef(null);

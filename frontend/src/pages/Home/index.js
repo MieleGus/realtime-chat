@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react'
-import { AnimationContainer, Container, Content, ChatContainer } from './styles';
+import { useEffect } from 'react'
+import { AnimationContainer, Container, Content, LogoutContainer } from './styles';
+import { FiLogOut } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+
 import Login from '../Login'
 import Register from '../Register';
 
@@ -23,13 +26,21 @@ export default function Home() {
         <>
             <Container isAuthenticated={isAuthenticated}>
                 
-                    {!isAuthenticated && 
-                    <Content>
-                        <AnimationContainer>
-                            {isRegisterPage ? <Register/> : <Login/>}
-                        </AnimationContainer>
-                    </Content>
-                    }
+                {isAuthenticated 
+                    ?
+                        <LogoutContainer>
+                            <Link onClick={handleLogout}>
+                                <FiLogOut />
+                                Logout
+                            </Link>
+                        </LogoutContainer>
+                    :
+                        <Content>
+                            <AnimationContainer>
+                                {isRegisterPage ? <Register/> : <Login/>}
+                            </AnimationContainer>
+                        </Content>
+                }
                 
                 <Chat/>
 

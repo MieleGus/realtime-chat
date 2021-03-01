@@ -2,28 +2,24 @@ import { useRef } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
 import { useAuth } from '../../hooks/Auth';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import api from '../../services/api'
-
 
 export default function Login() {
     const { enqueueSnackbar } = useSnackbar();
 
     const formRef = useRef(null);
 
-    let { isRegisterPage, setIsRegisterPage, login, logout } = useAuth();
+    let { isRegisterPage, setIsRegisterPage, login } = useAuth();
 
     const handleSubmit = async (data) => {
         try {
             formRef.current.setErrors({})
         
-            console.log("🚀 ~ file: index.js ~ line 12 ~ handleSubmit ~ data", data)
-
             const schema = Yup.object().shape({
                 email: Yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
                 password: Yup.string().required('Senha obrigatória'),

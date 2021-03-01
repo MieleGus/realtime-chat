@@ -49,13 +49,7 @@ export const ChatMessagesContainer = styled.div `
     max-width: 100vw;
     overflow:auto;
     word-wrap:break-word;
-
-    /* ${props => props.loading && css`
-        align-items: center !important;
-        justify-content: center !important;
-    `} */
-    overflow-y: auto;
-    
+    /* overflow-y: auto; */
 ` 
 
 export const Message = styled.p `

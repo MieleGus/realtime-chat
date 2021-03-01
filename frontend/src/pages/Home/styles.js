@@ -1,4 +1,4 @@
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
 export const Container = styled.div`
@@ -8,6 +8,24 @@ export const Container = styled.div`
   align-items: stretch;
   justify-content: center;
 
+  a {
+      color: #19d3da;
+      text-decoration: none;
+      transition: color 0.2s;
+      font-size: 18px;
+
+      display: flex;
+      align-items: center;
+      margin-top: -2rem;
+      svg {
+          margin-right: 16px;
+      }
+
+      &:hover {
+          color: ${shade(0.2, '#19d3da')};
+      }
+    }
+    
   @media(max-width: 870px) {
     margin-top:  ${props => props.isAuthenticated ? '0' : '10rem'};
     flex-direction: ${props => props.isAuthenticated ? 'row' : 'column'} ;
@@ -20,8 +38,17 @@ export const Container = styled.div`
      }
   }
 
-`;
+  
 
+`;
+export const LogoutContainer = styled.div`
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 0;
+  margin-top: 6vh;
+  margin-left: 3%;
+`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -35,7 +62,6 @@ export const Content = styled.div`
   @media(max-width: 870px) {
     max-width: 100%;
   }
-  /* background-color: black; */
 `;
 
 export const ChatContainer = styled.div`
@@ -43,18 +69,9 @@ export const ChatContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-
-  
   max-height: 100vh;
   height: 100%;
   width: 100%;
-
- 
-  /* max-width: 40%; */
-
-  /* @media(max-width: 870px) {
-    max-width: 100%;
-  } */
   background-color: black;
 `;
 
@@ -87,22 +104,4 @@ export const AnimationContainer = styled.div`
             margin-bottom: 24px;
         }
     }  
-    
-    a {
-        color: #19d3da;
-        text-decoration: none;
-        transition: color 0.2s;
-        font-size: 18px;
-
-        display: flex;
-        align-items: center;
-        margin-top: -2rem;
-        svg {
-            margin-right: 16px;
-        }
-
-        &:hover {
-            color: ${shade(0.2, '#19d3da')};
-        }
-    }
 `

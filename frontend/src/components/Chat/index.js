@@ -33,15 +33,25 @@ export default function Chat() {
     
     if (!roomId) roomId = 'general'
 
+    const chatMessagesRef = useRef(null);
+
+    useEffect(() => {
+        getMessagesFromRoom();
+        joinRoom();
+        roomControl();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isSocketInitialized]);
+
+
     const joinRoom = async () => {
-        console.log("🚀 ~ file: index.js ~ line 34 ~ joinRoom ~ isSocketInitialized", isSocketInitialized)
-        if (isSocketInitialized) {
-            console.log('JOIN ROOM')
-             socket.emit('joinRoom', {room: roomId});
+        if (isAuthenticated) {
+            console.log("🚀 ~ file: index.js ~ line 34 ~ joinRoom ~ isSocketInitialized", isSocketInitialized)
+            if (isSocketInitialized) {
+                 socket.emit('joinRoom', {room: roomId});
+            }
         }
     }
-
-
+  
     const getMessagesFromRoom = async () => {
         try {
             console.log('chegou get messages from room')
@@ -66,13 +76,16 @@ export default function Chat() {
         }
     }
 
+    const handlePageScrollDown = () => {
+        chatMessagesRef.current.addEventListener('DOMNodeInserted', event => {
+            const { currentTarget: target } = event;
+            target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+          });
+    }
     useEffect(() => {
-        getMessagesFromRoom();
-        joinRoom();
-        roomControl();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSocketInitialized]);
-
+        handlePageScrollDown()
+    }, [messages])
+    
     const roomControl = () => {
         if (isSocketInitialized) {
             socket.on("room", function(newMessage) {
@@ -112,11 +125,10 @@ export default function Chat() {
         }   
     }
 
-
     return (
         <>
-        <Container isAuthenticated={isAuthenticated}> 
-            <ChatMessagesContainer>
+        <Container  isAuthenticated={isAuthenticated}> 
+            <ChatMessagesContainer ref={chatMessagesRef} >
                 {loading 
                     ?
                         <ClipLoader color={'#19d3da'} loading={loading} css={override} size={120} />
@@ -125,7 +137,6 @@ export default function Chat() {
                             <Message isAuthor={item.isAuthor || ''} key={index}>{item.sender_name && <span>{`${item.sender_name }:`}</span>}{item.message}</Message>
                         ))
                     }
-                    
             </ChatMessagesContainer>
             <Form ref={formRef} onSubmit={handleSubmit}>
                 {/* <h1> Chat</h1> */}

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { FiArrowLeft, FiUser, FiMail, FiLock } from 'react-icons/fi';
+import { FiArrowLeft, FiUser, FiMail, FiLock, FiCalendar } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
@@ -24,6 +24,7 @@ export default function Register() {
             const schema = Yup.object().shape({
                 name: Yup.string().required('Nome obrigatório!'),
                 email: Yup.string().required('E-mail obrigatório!').email('Digite um e-mail válido'),
+                birthday: Yup.string().required('Data de nascimento obrigatória!'),
                 password: Yup.string().required('Senha obrigatória!'),
             });
         
@@ -37,6 +38,7 @@ export default function Register() {
             
         } catch(error) {
             let errors = {}
+            console.log("🚀 ~ file: index.js ~ line 42 ~ handleSubmit ~ error", error)
             if (error instanceof Yup.ValidationError) {
                 error.inner.forEach((error) => {
                     errors[error.path] = error.message;
@@ -46,7 +48,7 @@ export default function Register() {
                 return;
             }
 
-            enqueueSnackbar('Ocorreu um erro ao fazer o cadastro, tente novamente.', { variant: 'error' });
+            enqueueSnackbar('Email já existente!', { variant: 'error' });
             return
         }   
     }
@@ -68,6 +70,12 @@ export default function Register() {
                     name="email" 
                     icon={FiMail} 
                     placeholder="E-mail" 
+                />
+                <Input 
+                    name="birthday" 
+                    icon={FiCalendar} 
+                    placeholder="Data de Nascimento" 
+                    type="date"
                 />
                 <Input
                     name="password"

@@ -19,17 +19,19 @@ const webSocket = async (server) => {
       socket.on('disconnect', async () => {
           delete connectedUsers[userEmail];
 
+          if (userEmail) {
+            let message = `${userName} saiu da sala.`
 
-          let message = `${userName} saiu da sala.`
-
-          io.in(room).emit('receivedMessage', { message })
-
-          data = {
-            message,
-            room_id: room,
+            io.in(room).emit('receivedMessage', { message })
+  
+            data = {
+              message,
+              room_id: room,
+            }
+  
+            await ChatMessage.create(data)
           }
-
-          await ChatMessage.create(data)
+          
       });
       
       
