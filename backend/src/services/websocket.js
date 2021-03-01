@@ -9,22 +9,47 @@ const webSocket = async (server) => {
     });
 
     let connectedUsers = {};
+    let room;
 
     io.on('connection', (socket) => {
-      let { userEmail } = socket.handshake.query;
+      let { userEmail, userName } = socket.handshake.query;
 
       connectedUsers[userEmail] = socket.id;
 
-      socket.on('disconnect', () => {
+      socket.on('disconnect', async () => {
           delete connectedUsers[userEmail];
+
+
+          let message = `${userName} saiu da sala.`
+
+          io.in(room).emit('receivedMessage', { message })
+
+          data = {
+            message,
+            room_id: room,
+          }
+
+          await ChatMessage.create(data)
       });
-      let room;
       
-      socket.on('joinRoom', (data) => {
+      
+      socket.on('joinRoom', async (data) => {
+        console.log("🚀 ~ file: websocket.js ~ line 24 ~ socket.on ~ data", data)
+        
         socket.join(data.room)
         room = data.room
-        socket.broadcast.emit("broadcast", "hello friends!");
+
         io.in(data.room).emit("room", `joined room ${data.room}, user -> ${userEmail}`);
+        
+        let message = `${userName} entrou na sala.`
+        
+        io.in(room).emit('receivedMessage', { message })
+        data = {
+          message,
+          room_id: room,
+        }
+
+        await ChatMessage.create(data)
       })
 
       socket.on('chatMessage', async (data) => {
