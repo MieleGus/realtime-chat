@@ -10,7 +10,7 @@ import { useAuth } from '../../hooks/Auth';
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from 'styled-components'
 
-import { Container, ChatMessagesContainer, Message  } from './styles';
+import { Container, ChatMessagesContainer, Message } from './styles';
 
 
 export default function Chat() {
@@ -21,6 +21,8 @@ export default function Chat() {
     let { user, isAuthenticated } = useAuth();
     const { enqueueSnackbar } = useSnackbar();
     const formRef = useRef(null);
+
+    const [haveObserver, setHaveObserver] = useState(localStorage.getItem('@RealTimeChat:observer') ? true : false)
 
     const override = css`
         display: block;
@@ -76,15 +78,19 @@ export default function Chat() {
         }
     }
 
-    const handlePageScrollDown = () => {
-        chatMessagesRef.current.addEventListener('DOMNodeInserted', event => {
-            const { currentTarget: target } = event;
-            target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
-          });
+    const handleChatScrollDown = () => {
+        if (haveObserver) {
+            chatMessagesRef.current.addEventListener('DOMNodeInserted', event => {
+                const { currentTarget: target } = event;
+                target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+            });
+        }
+        
     }
     useEffect(() => {
-        handlePageScrollDown()
-    }, [messages])
+        handleChatScrollDown()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages, haveObserver])
     
     const roomControl = () => {
         if (isSocketInitialized) {
@@ -125,30 +131,55 @@ export default function Chat() {
         }   
     }
 
+    const handleInsertObserver = (data) => {
+        localStorage.setItem('@RealTimeChat:observer', data.name);
+        setHaveObserver(true);
+        handleChatScrollDown();
+    }
+
     return (
         <>
         <Container  isAuthenticated={isAuthenticated}> 
-            <ChatMessagesContainer ref={chatMessagesRef} >
-                {loading 
-                    ?
-                        <ClipLoader color={'#19d3da'} loading={loading} css={override} size={120} />
-                    :
-                        messages.map((item, index) => (
-                            <Message isAuthor={item.isAuthor || ''} key={index}>{item.sender_name && <span>{`${item.sender_name }:`}</span>}{item.message}</Message>
-                        ))
-                    }
-            </ChatMessagesContainer>
-            <Form ref={formRef} onSubmit={handleSubmit}>
-                {/* <h1> Chat</h1> */}
-            
-                <Input 
-                    isChatInput="true"
-                    name="message" 
-                    placeholder="Digite sua mensagem" 
-                />
-            
-                <Button isChatButton="true" isAuthenticated={isAuthenticated} type="submit">Enviar</Button>
-            </Form>
+            {haveObserver ? 
+            <>
+                <ChatMessagesContainer ref={chatMessagesRef} >
+                    {loading 
+                        ?
+                            <ClipLoader color={'#19d3da'} loading={loading} css={override} size={120} />
+                        :
+                            messages.map((item, index) => (
+                                <Message isAuthor={item.isAuthor || ''} key={index}>{item.sender_name && <span>{`${item.sender_name }:`}</span>}{item.message}</Message>
+                            ))
+                        }
+                </ChatMessagesContainer>
+                <Form ref={formRef} onSubmit={handleSubmit}>
+                    {/* <h1> Chat</h1> */}
+                
+                    <Input 
+                        isChatInput="true"
+                        name="message" 
+                        placeholder="Digite sua mensagem" 
+                    />
+                
+                    <Button isChatButton="true" isAuthenticated={isAuthenticated} type="submit">Enviar</Button>
+                </Form>
+
+            </>
+                :
+            <>
+                <Form ref={formRef} onSubmit={handleInsertObserver}>
+                    {/* <h1> Chat</h1> */}
+                
+                    <Input 
+                        isChatInput="true"
+                        name="name" 
+                        placeholder="Digite seu nome para visualizar o chat" 
+                    />
+                
+                    <Button isChatButton="true" isAuthenticated={isAuthenticated} type="submit">Enviar</Button>
+                </Form>
+            </>
+            }
         </Container>
             
         </>
