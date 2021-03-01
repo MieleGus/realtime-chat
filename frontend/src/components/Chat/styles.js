@@ -21,6 +21,7 @@ export const Container = styled.div`
         flex-wrap: wrap;
         height: 10%;
         align-items: flex-end;
+        
 
         @media(max-width: 870px) {
             
@@ -47,6 +48,12 @@ export const ChatMessagesContainer = styled.div `
     max-height: 480px;
     max-width: 100vw;
     overflow:auto;
+    word-wrap:break-word;
+
+    /* ${props => props.loading && css`
+        align-items: center !important;
+        justify-content: center !important;
+    `} */
     overflow-y: auto;
     
 ` 
@@ -54,7 +61,26 @@ export const ChatMessagesContainer = styled.div `
 export const Message = styled.p `
     font-size: 16;
     max-width: 100vw;
+    color: black;
+    &:not(:last-child) {
+            margin-bottom: 0.2rem;
+    }
 
+    span {
+        font-size: 17px;
+        max-width: 100vw;
+        color: #282a36;
+        white-space:nowrap;
+        margin-right: 0.2rem;
+
+        
+    }
+
+    ${props => props.isAuthor && css`
+        span {
+            color: #14a8ae !important;
+        }
+    `}
 `
 
 

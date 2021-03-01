@@ -28,8 +28,4 @@ export const Container = styled.button`
       font-size: 18px !important;
       /* height: 100% !important; */
   `}
-
-  ${props => props.isAuthenticated && css`
-      /* height: 100% !important !important; */
-  `}
 `;

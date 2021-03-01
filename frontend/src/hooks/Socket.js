@@ -19,9 +19,12 @@ const SocketProvider = ({ children }) => {
       setSocket(io(
         SERVER, 
         user && {
-          query: {userEmail: user.email},
-        } 
-      ))
+          query: {
+            userEmail: user.email,
+            userName: user.name,
+          },
+        }
+      ));
       setIsSocketInitializated(true)
     }
   }, [user, isSocketInitialized]);
