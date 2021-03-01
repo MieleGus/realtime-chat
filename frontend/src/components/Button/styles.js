@@ -21,8 +21,15 @@ export const Container = styled.button`
 
   ${props => props.isChatButton && css`
       border-radius: 0;
-      width: 15%;
+      height: 56px;
+      width: 20%;
       margin-top: 0;
       padding: 0;
-    `}
+      /* font-size: 16px !important; */
+      /* height: 100% !important; */
+  `}
+
+  ${props => props.isAuthenticated && css`
+      /* height: 100% !important !important; */
+  `}
 `;

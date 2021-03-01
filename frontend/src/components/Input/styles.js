@@ -17,8 +17,8 @@ export const Container = styled.div`
     }
 
     ${props => props.isChatInput && css`
-      height: 100%;
-      width: 85%;
+      height: 56px;
+      width: 80%;
       border-radius: 0;
     `}
 

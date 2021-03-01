@@ -11,13 +11,17 @@ const SocketContext = createContext();
 const SocketProvider = ({ children }) => {
 
   let { user } = useAuth();
-  const [socket, setSocket] = useState()
+  // const [socket, setSocket] = useState()
   
-  useEffect(() => setSocket(io(
-    SERVER, {
-      autoConnect: false,
-    })), [])
-    
+  // useEffect(() => setSocket(io(
+  //   SERVER, user && {
+  //     query: {userEmail: user.email},
+  //   })), [user])
+
+    let socket = io(
+      SERVER, user && {
+        query: {userEmail: user.email},
+    })
   return (
     <SocketContext.Provider value={{socket}}>
       {children}

@@ -7,6 +7,7 @@ export default function App() {
             <Switch>
                 <Route path="/" exact component={Home}/>
                 <Route path="/register" exact component={Home}/>
+                <Route path="/room/:roomId"  component={Home}/>
             </Switch>
         </Router>
     );

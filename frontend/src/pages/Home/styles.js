@@ -1,21 +1,23 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { shade } from 'polished';
 
 export const Container = styled.div`
   height: 100vh;
+  max-height: 100vh;
   display: flex;
   align-items: stretch;
-  /* align-items: center; */
+  justify-content: center;
 
   @media(max-width: 870px) {
-    flex-direction: column;
+    margin-top:  ${props => props.isAuthenticated ? '0' : '10rem'};
+    flex-direction: ${props => props.isAuthenticated ? 'row' : 'column'} ;
+    
     h1 {
       margin-top: -4rem;
     }
      a {
        margin-bottom:2rem;
      }
-
   }
 
 `;
@@ -43,6 +45,7 @@ export const ChatContainer = styled.div`
   align-items: flex-end;
 
   
+  max-height: 100vh;
   height: 100%;
   width: 100%;
 

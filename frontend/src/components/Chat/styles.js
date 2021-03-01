@@ -1,33 +1,54 @@
-import styled from 'styled-components';
+import styled, { css} from 'styled-components';
 
 export const Container = styled.div`
     border-radius: 10px;
     background: whitesmoke;
     border: 2px solid #232129;
     color: #666360;
-    width: 100vw;
+    width: 90vw;
+    max-height: 100vh;
+    align-items: flex-end;
+    align-self: center;
+
+   
     
     form {
         display: flex;
-        width: 100%;
+        max-height: 120px;
+        height: 120px;
         flex-wrap: wrap;
         height: 10%;
         align-items: flex-end;
+
+        @media(max-width: 870px) {
+            
+        }
+
         
-        button {
+        /* button {
             height: 100%;
             margin: 0;
             padding: 0;
-        }
+        } */
     }
+
+    /* ${props => props.isAuthenticated && css`
+      width: 70%;
+      flex: 1;
+      justify-content: center;
+    `} */
 `;
 
 export const ChatMessagesContainer = styled.div `
     padding: 16px;
     align-items: flex-start;
     justify-content: flex-start;
-    height: 90%;
+    height: 100%;
+    max-height: 480px;
     max-width: 100vw;
+    overflow:auto;
+    overflow-y: auto;
+    
 ` 
 
 export const Message = styled.p `
@@ -35,6 +56,5 @@ export const Message = styled.p `
     max-width: 100vw;
 
 `
-
 
 

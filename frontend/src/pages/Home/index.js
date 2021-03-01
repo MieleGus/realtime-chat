@@ -21,18 +21,18 @@ export default function Home() {
 
     return (
         <>
-            <Container>
-                <Content>
+            <Container isAuthenticated={isAuthenticated}>
+                
                     {!isAuthenticated && 
+                    <Content>
                         <AnimationContainer>
                             {isRegisterPage ? <Register/> : <Login/>}
                         </AnimationContainer>
+                    </Content>
                     }
-                </Content>
-                {/* <ChatContainer> */}
+                
                 <Chat/>
 
-                {/* </ChatContainer> */}
 
             </Container>
         </>
