@@ -1,17 +1,19 @@
-import styled, { css} from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
     border-radius: 10px;
     background: whitesmoke;
     border: 2px solid #232129;
     color: #666360;
-    width: 90vw;
-    max-height: 100vh;
+    width: 50vw;
+    height: 70%;
     align-items: flex-end;
     align-self: center;
 
-   
-    
+    @media(max-width: 870px) {
+        width: 80vw;
+    }
+
     form {
         display: flex;
         max-height: 120px;
@@ -23,8 +25,6 @@ export const Container = styled.div`
         @media(max-width: 870px) {
             
         }
-
-        
         /* button {
             height: 100%;
             margin: 0;

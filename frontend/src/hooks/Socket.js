@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useRef, useContext, useEffect, useState } from 'react';
 import { io } from "socket.io-client";
 
 import { useAuth } from './Auth';
@@ -11,19 +11,23 @@ const SocketContext = createContext();
 const SocketProvider = ({ children }) => {
 
   let { user } = useAuth();
-  // const [socket, setSocket] = useState()
+  const [isSocketInitialized, setIsSocketInitializated] = useState(false)
+  const [socket, setSocket] = useState()
   
-  // useEffect(() => setSocket(io(
-  //   SERVER, user && {
-  //     query: {userEmail: user.email},
-  //   })), [user])
-
-    let socket = io(
-      SERVER, user && {
-        query: {userEmail: user.email},
-    })
+  useEffect(() => {
+    if(!isSocketInitialized){
+      setSocket(io(
+        SERVER, 
+        user && {
+          query: {userEmail: user.email},
+        } 
+      ))
+      setIsSocketInitializated(true)
+    }
+  }, [user, isSocketInitialized]);
+     
   return (
-    <SocketContext.Provider value={{socket}}>
+    <SocketContext.Provider value={{socket, isSocketInitialized}}>
       {children}
     </SocketContext.Provider>
   );

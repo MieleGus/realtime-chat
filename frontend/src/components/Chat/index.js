@@ -9,31 +9,35 @@ import api from '../../services/api'
 import { useAuth } from '../../hooks/Auth';
 
 
-import { Container, ChatMessagesContainer, Message, InputMessageContainer } from './styles';
+import { Container, ChatMessagesContainer, Message  } from './styles';
 
 
 export default function Chat() {
     const [messages, setMessages] = useState([])
     let { roomId } = useParams();
-    const { socket } = useSocket();
+    const { socket, isSocketInitialized } = useSocket();
     let { user, isAuthenticated } = useAuth();
     const { enqueueSnackbar } = useSnackbar();
     const formRef = useRef(null);
 
-    const messagesEndRef = useRef(null)
+    if (!roomId) roomId = 'general'
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    const joinRoom = async () => {
+        console.log("🚀 ~ file: index.js ~ line 34 ~ joinRoom ~ isSocketInitialized", isSocketInitialized)
+        if (isSocketInitialized) {
+            console.log('JOIN ROOM')
+             socket.emit('joinRoom', {room: roomId});
+        }
     }
 
-    useEffect(() => {
-        scrollToBottom()
-      }, [messages]);
 
     const getMessagesFromRoom = async () => {
         try {
-            const response = await api.get('/messages');
-
+            const response = await api.get('/messages', {
+                params: {
+                    room: roomId
+                }
+            });
             setMessages(response.data);
         } catch(error){
             console.log("🚀 ~ file: index.js ~ line 33 ~ getMessagesFromRoom ~ error", error);
@@ -42,14 +46,24 @@ export default function Chat() {
 
     useEffect(() => {
         getMessagesFromRoom();
-    }, []);
+        joinRoom();
+        roomControl();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isSocketInitialized]);
 
-    socket.on('receivedMessage', function(newMessage) {
-        getMessagesFromRoom();
-        console.log("🚀 NEW SAGEMSSAGE@@@@@", newMessage)
 
-    });
+    const roomControl = () => {
+        if (isSocketInitialized) {
+            socket.on("room", function(newMessage) {
+                console.log("🚀 joined room", newMessage)
+            });
 
+            socket.on('receivedMessage', function(newMessage) {
+                setMessages(state => [...state, newMessage])
+            });
+        }
+    }
+    
     const handleSubmit = async (data) => {
         try {
             if (!user) {
@@ -59,9 +73,10 @@ export default function Chat() {
 
             socket.emit('chatMessage', {message: data.message, sender_id: user._id, room_id: roomId, sender_name: user.name });
             formRef.current.reset();
-            await getMessagesFromRoom();
+            // await getMessagesFromRoom();
 
         } catch(error) {
+        console.log("🚀 ~ file: index.js ~ line 68 ~ handleSubmit ~ error", error)
            
             enqueueSnackbar('Ocorreu um erro ao fazer Chat, usuário e/ou senha inválidos.', { variant: 'error' });
             return
@@ -73,8 +88,8 @@ export default function Chat() {
         <>
         <Container isAuthenticated={isAuthenticated}> 
             <ChatMessagesContainer>
-                {messages.map(item => (
-                    <Message>{item.message}</Message>
+                {messages.map((item, index) => (
+                    <Message key={index}>{item.message}</Message>
                 ))}
                     
             </ChatMessagesContainer>

@@ -25,7 +25,7 @@ export const Container = styled.button`
       width: 20%;
       margin-top: 0;
       padding: 0;
-      /* font-size: 16px !important; */
+      font-size: 18px !important;
       /* height: 100% !important; */
   `}
 
