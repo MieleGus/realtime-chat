@@ -31,3 +31,7 @@ $ yarn start ou npm run start
  ```
  get server_url/user
  ```
+Salas
+ ```
+ Cada url após o /room é uma nova sala, exemplo: http://localhost:3333/room/sala_teste
+ ```
